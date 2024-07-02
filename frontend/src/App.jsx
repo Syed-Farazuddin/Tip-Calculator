@@ -1,3 +1,4 @@
+/*eslint-disable */
 import React, { useEffect, useState } from "react";
 import Test from "./components/Test";
 import { IoPerson } from "react-icons/io5";
@@ -9,6 +10,7 @@ export default function App() {
   const [bill, setBill] = useState("");
   const [people, setPeople] = useState("");
   const [active, setActive] = useState();
+  const [resetBtn, setResetBtn] = useState(false);
   const a = [5, 10, 15, 25, 50];
   console.log(tip);
   const handleInputChange = (e) => {
@@ -18,6 +20,7 @@ export default function App() {
   const handleReset = () => {
     setTip("0.00");
     setTotal("0.00");
+    setResetBtn(false);
   };
   console.log(active);
   useEffect(() => {
@@ -36,11 +39,12 @@ export default function App() {
       setTip((a[active] * bill) / 100);
     }
     setTotal(bill / people + tip);
+    setResetBtn(true);
   }, [bill, people, customInp, active]);
   return (
-    <main className="w-full h-[100vh] bg-greyCyan-200 flex items-center justify-center flex-col gap-6">
+    <main className="w-full h-[100vh] bg-greyCyan-200 flex items-center justify-center flex-col gap-6 ">
       <h1 className="text-cyan-300 font-bold text-xl">SPLITTER</h1>
-      <div className="p-6 w-auto rounded-2xl h-auto bg-white flex">
+      <div className="p-6 w-auto rounded-2xl h-auto bg-white flex sm:flex-col lg:flex-row">
         <section className="bg-white flex flex-col p-6 rounded-lg">
           <div className="flex flex-col items-start gap-2 justify-start">
             <h1 className="text-cyan-200 font-bold text-sm">Bill</h1>
@@ -125,7 +129,9 @@ export default function App() {
             <div className="text-cyan-100 text-3xl font-bold">${total}</div>
           </div>
           <button
-            className="flex justify-center items-end hover:bg-[#9ceade] py-1 w-[84%] mx-auto mt-24 rounded-sm"
+            className={`${
+              resetBtn ? "bg-[#9ceade]" : "bg-cyan-400 text-cyan-300"
+            } flex justify-center items-end hover:bg-[#9ceade] py-1 w-[84%] mx-auto mt-24 rounded-sm mb-4`}
             onClick={() => {
               handleReset();
             }}
